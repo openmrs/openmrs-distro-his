@@ -1,0 +1,10 @@
+{
+  "@openmrs/esm-primary-navigation-app": {
+    "externalRefLinks": [
+      {
+        "title": "Pharmacy, Billing & Inventory",
+        "redirect": "${ERPNEXT_PUBLIC_URL}"
+      }
+    ]
+  }
+}

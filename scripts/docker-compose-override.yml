@@ -1,0 +1,9 @@
+services:
+
+  frontend:
+    environment:
+      SPA_CONFIG_URLS: /openmrs/spa/ozone/config.json
+
+  env-substitution:
+    environment:
+      - ERPNEXT_PUBLIC_URL=https://${ERPNEXT_HOSTNAME}
