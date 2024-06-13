@@ -80,6 +80,13 @@
     </plugins>
   </build>
 
+  <repositories>
+    <repository>
+      <id>mks-nexus-public</id>
+      <url>https://nexus.mekomsolutions.net/repository/maven-public/</url>
+    </repository>
+  </repositories>
+  
   <profiles>
     <profile>
       <id>validator</id>
