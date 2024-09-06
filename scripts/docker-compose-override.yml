@@ -6,4 +6,4 @@ services:
 
   env-substitution:
     environment:
-      - ODOO_PUBLIC_URL=https://${ODOO_HOSTNAME}
+      - ODOO_PUBLIC_URL=http://${ODOO_HOSTNAME}
