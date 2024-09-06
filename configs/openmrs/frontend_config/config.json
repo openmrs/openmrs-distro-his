@@ -4,6 +4,10 @@
       {
         "title": "Pharmacy, Billing & Inventory",
         "redirect": "${ODOO_PUBLIC_URL}"
+      },
+      {
+        "title": "Laboratory",
+        "redirect": "${SENAITE_PUBLIC_URL}"
       }
     ]
   }
