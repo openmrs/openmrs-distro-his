@@ -6,4 +6,4 @@ services:
 
   env-substitution:
     environment:
-      - ERPNEXT_PUBLIC_URL=https://${ERPNEXT_HOSTNAME}
+      - ODOO_PUBLIC_URL=http://${ODOO_HOSTNAME}
