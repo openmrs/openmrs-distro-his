@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>org.openmrs</groupId>
-  <artifactId>openmrs-distro-his</artifactId>
+  <artifactId>distro-his</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <properties>
