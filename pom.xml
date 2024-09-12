@@ -82,7 +82,28 @@
               </resources>
             </configuration>
           </execution>
-          
+          <execution>
+            <!-- Override the inherited Maven Parent plugin execution to exclude Superset configs -->
+            <!-- Override with local config files -->
+            <id>Copy local resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/${project.artifactId}-${project.version}/distro/configs</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/configs</directory>
+                  <excludes>
+                    <exclude>.gitkeep</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
