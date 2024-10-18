@@ -2,7 +2,7 @@ services:
 
   frontend:
     environment:
-      SPA_CONFIG_URLS: /openmrs/spa/ozone/config.json
+      SPA_CONFIG_URLS: /openmrs/spa/configs/config.json
 
   env-substitution:
     environment:
