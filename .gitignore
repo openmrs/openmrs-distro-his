@@ -94,6 +94,8 @@ effective-pom.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/.gitignore
+.idea/material_theme_project_new.xml
 
 # Gradle
 .idea/**/gradle.xml
