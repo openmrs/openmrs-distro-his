@@ -18,10 +18,22 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <docker.push.registry.username>openmrs</docker.push.registry.username>
+
+    <event.omod.version>3.0.0-SNAPSHOT</event.omod.version>
+    <labonfhir.omod.version>1.5.1-SNAPSHOT</labonfhir.omod.version>
   </properties>
 
   <dependencies>
-    <!-- TODO: Add any implementation-specific dependencies -->
+    <dependency>
+      <groupId>org.openmrs</groupId>
+      <artifactId>event-omod</artifactId>
+      <version>${event.omod.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>labonfhir-omod</artifactId>
+      <version>${labonfhir.omod.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -76,6 +88,7 @@
                   <directory>${project.basedir}/scripts</directory>
                   <includes>
                     <include>docker-compose-override.yml</include>
+                    <include>docker-compose-openelis.yml</include>
                   </includes>
                   <filtering>true</filtering>
                 </resource>
