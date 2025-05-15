@@ -7,3 +7,25 @@ services:
   env-substitution:
     environment:
       - ODOO_PUBLIC_URL=http://${ODOO_HOSTNAME}
+
+#  certs:
+#    platform: linux/amd64
+#
+#  oe.openelis.org:
+#    platform: linux/amd64
+#
+#  frontend.openelis.org:
+#    platform: linux/amd64
+#
+#  fhir.openelis.org:
+#    platform: linux/amd64
+#    ports:
+#      - "8086:8080"
+#    volumes:
+#      - key_trust-store-volume:/etc/openelis-global
+#
+#  proxy:
+#    platform: linux/amd64
+#    ports:
+#      - "81:80"
+#      - "443:443"

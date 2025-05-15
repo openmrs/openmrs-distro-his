@@ -1,4 +1,31 @@
-version: '3.3'
+version: '3.6'
+
+x-logging:
+  &local-logging
+  driver: "local"
+  options:
+    max-size: "20m"
+    max-file: "50"
+
+x-loki-logging:
+  &loki-logging
+  driver: "loki"
+  options:
+    max-size: "20m"
+    max-file: "50"
+    loki-url: "[% loki_url %]"
+    loki-external-labels: "container_name={{.Name}},hostname=[% host_name %]"
+    loki-pipeline-stages: |
+      - multiline:
+          firstline: '^\d{4}-\d{2}-\d{2}[T ]?\d{2}:\d{2}:\d{2}.\d{3}'
+      - labeldrop:
+          - compose_project
+          - compose_service
+          - filename
+          - source
+          - stream
+          - swarm_service
+          - swarm_stack
 services:
   certs:
     container_name: oe-certs
@@ -9,27 +36,28 @@ services:
       - KEYSTORE_PW="kspass"
       - TRUSTSTORE_PW="tspass"
     networks:
-      - default
+      - openelis-network
     volumes:
-      - key_trust-store-volume:/etc/openelis-global
-      - keys-vol:/etc/ssl/private/
-      - certs-vol:/etc/ssl/certs/
+      -  key_trust-store-volume:/etc/openelis-global
+      -  keys-vol:/etc/ssl/private/
+      -  certs-vol:/etc/ssl/certs/
 
-  database:
+  db.openelis.org:
     container_name: openelisglobal-database
     image: postgres:14.4
     ports:
       - "15432:5432"
     restart: always
     env_file:
-      - ../../distro/configs/openelis/volume/database/database.env
+      - ./volumes/database/database.env
     volumes:
       # preserves the database between containers
-      - db-data:/var/lib/postgresql/data
+      - ./volumes/database/data:/var/lib/postgresql/data
       # files here will run on install
-      - ../../distro/configs/openelis/volume/database/dbInit:/docker-entrypoint-initdb.d
+      - ./volumes/database/dbInit:/docker-entrypoint-initdb.d
+    logging: *local-logging
     networks:
-      - default
+      - openelis-network
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "clinlims", "-U", "clinlims" ]
       timeout: 45s
@@ -41,30 +69,31 @@ services:
     image: itechuw/openelis-global-2:develop
     platform: linux/amd64
     depends_on:
-      - database
+      - db.openelis.org
       - certs
     ports:
       - "8085:8080"
       - "8443:8443"
     restart: always
     networks:
-      default:
+      openelis-network:
         ipv4_address: 172.20.1.121
-
+    logging: *local-logging
     environment:
       - DEFAULT_PW=adminADMIN!
-      - TZ=Africa/Nairobi
+      - TZ=America/New_York
       # context.xml doesn't seem to be able to pick up environment variables directly, so we are passing them in as CATALINA_OPTS
-      - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://database:5432/clinlims -Ddatasource.username=clinlims
+      - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://db.openelis.org:5432/clinlims -Ddatasource.username=clinlims
     volumes:
-      - key_trust-store-volume:/etc/openelis-global
-      - ../../distro/configs/openelis/volume/plugins/:/var/lib/openelis-global/plugins
-      - ../../distro/configs/openelis/volume/tomcat/oe_server.xml:/usr/local/tomcat/conf/server.xml
-      - lucene_index-vol:/var/lib/lucene_index
-      - ../../distro/configs/openelis/volume/test-map/test-loinc-map.csv:/var/lib/openelis-global/plugin-test-mappings/test-loinc-map.csv
-      - ../../distro/configs/openelis/volume/properties/SystemConfiguration.properties:/var/lib/openelis-global/properties/SystemConfiguration.properties
-      #Runing OpenELIS with the locally compiled war file
-      #- ./target/OpenELIS-Global.war:/usr/local/tomcat/webapps/OpenELIS-Global.war
+      -  key_trust-store-volume:/etc/openelis-global
+      - ./volumes/plugins/:/var/lib/openelis-global/plugins
+      - ./volumes/tomcat/oe_server_3x.xml:/usr/local/tomcat/conf/server.xml
+      - ./volumes/logs/oeLogs:/var/lib/openelis-global/logs
+      - ./volumes/logs/tomcatLogs/:/usr/local/tomcat/logs
+      - ./volumes/properties/SystemConfiguration.properties:/var/lib/openelis-global/properties/SystemConfiguration.properties
+      - ./volumes/test-map/test-loinc-map.csv:/var/lib/openelis-global/plugin-test-mappings/test-loinc-map.csv
+      -  lucene_index-vol:/var/lib/lucene_index
+
     secrets:
       - source: datasource.password
       - source: common.properties
@@ -73,18 +102,18 @@ services:
     container_name: external-fhir-api
     image: itechuw/openelis-global-2-fhir:develop
     platform: linux/amd64
-    depends_on:
-      - database
-      - certs
     ports:
       - "8086:8080"
-    #            - "8444:8443"
+#      - "8444:8443"
+    depends_on:
+      - db.openelis.org
+      - certs
     networks:
-      - default
+      - openelis-network
     restart: always
     environment:
       SPRING_CONFIG_LOCATION: file:///run/secrets/hapi_application.yaml
-      TZ: Africa/Nairobi
+      TZ: America/New_York
 
       JAVA_OPTS: "-Djavax.net.ssl.trustStore=/etc/openelis-global/truststore 
                       -Djavax.net.ssl.trustStorePassword=tspass
@@ -93,12 +122,12 @@ services:
                       -Djavax.net.ssl.keyStorePassword=kspass 
                       -Djavax.net.ssl.keyStoreType=pkcs12"
 
-    #        volumes:
-    #            -  key_trust-store-volume:/etc/openelis-global
-    #            - ../../distro/configs/openelis/volume/tomcat/hapi_server.xml:/opt/bitnami/tomcat/conf/server.xml
+    logging: *local-logging
+#    volumes:
+#      -  key_trust-store-volume:/etc/openelis-global
+#      - ./volumes/tomcat/hapi_server.xml:/opt/bitnami/tomcat/conf/server.xml
     secrets:
       - source: hapi_application.yaml
-
 
 
   frontend.openelis.org:
@@ -106,12 +135,13 @@ services:
     container_name: openelisglobal-front-end
     platform: linux/amd64
     networks:
-      - default
+      - openelis-network
     environment:
       - CHOKIDAR_USEPOLLING=true
+    logging: *local-logging
     tty: true
 
-  openelis-proxy:
+  openelis.proxy:
     image: itechuw/openelis-global-2-proxy:develop
     container_name: openelisglobal-proxy
     platform: linux/amd64
@@ -121,23 +151,71 @@ services:
     volumes:
       - certs-vol:/etc/nginx/certs/
       - keys-vol:/etc/nginx/keys/
-      - ../../distro/configs/openelis/volume/nginx/nginx-prod.conf:/etc/nginx/nginx.conf:ro
-    networks:
-      - default
+      - ./volumes/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # - /KEYSTORE_PASSWORD:/etc/nginx/private/key_pass
+      # - /etc/openelis-global/nginx.cert.pem:/etc/nginx/certs/cert.crt
+      # - /etc/openelis-global/nginx.key.pem:/etc/nginx/certs/cert.key
     restart: unless-stopped
+    networks:
+      - openelis-network
+    logging: *local-logging
     depends_on:
       - certs
 
+  # astm-http-bridge:
+  #     container_name: astm-http-bridge
+  #     image: itechuw/astm-http-bridge:2.3.6
+  #     platform: linux/amd64
+  #     pull_policy: always
+  #     ports:
+  #         - "8445:8443"
+  #         - "12001:12001"
+  #     volumes:
+  #         - ./volumes/configuration.yml:/app/configuration.yml
+  #         -  key_trust-store-volume:/etc/openelis-global
+  #     environment:
+  #         SPRING_PROFILE: dev
+  #         LOGGING_LEVEL_ORG_ITECH: TRACE
+  #         JAVA_OPTS: |
+  #             -Djavax.net.ssl.trustStore=/etc/openelis-global/truststore
+  #             -Djavax.net.ssl.trustStorePassword=tspass
+  #             -Djavax.net.ssl.trustStoreType=pkcs12
+  #     logging: *local-logging
+  #     networks:
+  #         - openelis-network
+  #     healthcheck:
+  #         test: ["CMD", "/app/healthcheck.sh"]
+  #         timeout: 10s
+  #         interval: 30s
+  #         retries: 3
+  #         start_period: 2m
+
+
+  autoheal:
+    container_name: autoheal-oe
+    image: willfarrell/autoheal:1.2.0
+    tty: true
+    restart: always
+    networks:
+      - openelis-network
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: all
+      TZ: America/New_York
+    logging: *local-logging
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
 secrets:
   datasource.password:
-    file: ../../distro/configs/openelis/volume/properties/datasource.password
+    file: ./volumes/properties/datasource.password
   common.properties:
-    file: ../../distro/configs/openelis/volume/properties/common.properties
+    file:  ./volumes/properties/common.properties
   hapi_application.yaml:
-    file: ../../distro/configs/openelis/volume/properties/hapi_application.yaml
+    file: ./volumes/properties/hapi_application.yaml
 
 networks:
-  default:
+  openelis-network:
+    name: openelis-network
     driver: bridge
     ipam:
       config:
