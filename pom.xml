@@ -83,6 +83,29 @@
             </configuration>
           </execution>
           <execution>
+            <!-- Copy over the content-packages.txt file -->
+            <id>Copy content-packages.txt</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/scripts/openmrs/
+              </outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/scripts</directory>
+                  <includes>
+                    <include>content-packages.txt</include>
+                  </includes>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
             <!-- Override the inherited Maven Parent plugin execution to exclude Superset configs -->
             <!-- Override with local config files -->
             <id>Copy local resources</id>
@@ -99,6 +122,7 @@
                   <directory>${project.basedir}/configs</directory>
                   <excludes>
                     <exclude>.gitkeep</exclude>
+                    <exclude>openmrs/initializer_config/</exclude>
                   </excludes>
                 </resource>
               </resources>
