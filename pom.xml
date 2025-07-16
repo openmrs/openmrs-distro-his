@@ -18,6 +18,10 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <docker.push.registry.username>openmrs</docker.push.registry.username>
+
+    <!-- Bundled Docker overrides -->
+    <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
+    <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
   </properties>
 
   <dependencies>
