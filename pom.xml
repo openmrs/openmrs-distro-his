@@ -19,17 +19,15 @@
     <maven.compiler.target>8</maven.compiler.target>
     <docker.push.registry.username>openmrs</docker.push.registry.username>
 
-    <event.omod.version>3.0.0-SNAPSHOT</event.omod.version>
-    <labonfhir.omod.version>1.5.1-SNAPSHOT</labonfhir.omod.version>
+    <!-- Bundled Docker overrides -->
+    <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
+    <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
+
+    <labonfhir.omod.version>1.5.1</labonfhir.omod.version>
     <openelis.version>3.2.0.1</openelis.version>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.openmrs</groupId>
-      <artifactId>event-omod</artifactId>
-      <version>${event.omod.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.openmrs.module</groupId>
       <artifactId>labonfhir-omod</artifactId>
@@ -67,6 +65,30 @@
                   <excludes>
                     <exclude>distro/configs/openmrs/frontend_config/ozone_logo*.svg</exclude>
                   </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
+          <execution>
+            <!-- Copy over the content-packages.txt file -->
+            <id>Copy content-packages.txt</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/scripts/openmrs/
+              </outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/scripts</directory>
+                  <includes>
+                    <include>content-packages.txt</include>
+                  </includes>
+                  <filtering>false</filtering>
                 </resource>
               </resources>
             </configuration>
@@ -135,7 +157,26 @@
                   <directory>${project.basedir}/configs</directory>
                   <excludes>
                     <exclude>.gitkeep</exclude>
+                    <exclude>openmrs/initializer_config/</exclude>
                   </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Copy binaries folder -->
+            <id>Copy binaries folder</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/${project.artifactId}-${project.version}/distro/binaries</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/binaries</directory>
                 </resource>
               </resources>
             </configuration>
@@ -229,7 +270,7 @@
       <url>https://nexus.mekomsolutions.net/repository/maven-public/</url>
     </repository>
   </repositories>
-
+  
   <profiles>
     <profile>
       <id>validator</id>

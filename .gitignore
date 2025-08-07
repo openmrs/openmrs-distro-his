@@ -73,6 +73,8 @@ effective-pom.xml
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+.idea
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -94,6 +96,8 @@ effective-pom.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/.gitignore
+.idea/material_theme_project_new.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -385,7 +389,5 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
-
-.idea
 
 # End of https://www.toptal.com/developers/gitignore/api/node
