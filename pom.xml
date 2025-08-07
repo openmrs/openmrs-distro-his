@@ -22,10 +22,16 @@
     <!-- Bundled Docker overrides -->
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
+
+    <labonfhir.omod.version>1.5.1</labonfhir.omod.version>
   </properties>
 
   <dependencies>
-    <!-- TODO: Add any implementation-specific dependencies -->
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>labonfhir-omod</artifactId>
+      <version>${labonfhir.omod.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -127,6 +133,7 @@
                   <directory>${project.basedir}/configs</directory>
                   <excludes>
                     <exclude>.gitkeep</exclude>
+                    <exclude>openmrs/initializer_config/</exclude>
                   </excludes>
                 </resource>
               </resources>
