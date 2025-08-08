@@ -319,7 +319,7 @@ services:
     networks:
       ozone:
     ports:
-      - "\${PROXY_PUBLIC_PORT:-80}:80"
+      - "8080:80"
       - "8069:8069"
       - "8081:8081"
       - "8084:8084"
