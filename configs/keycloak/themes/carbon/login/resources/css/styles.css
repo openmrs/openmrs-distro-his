@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  background-color: #FCF4E5;
+  background-color: #E3F2F1;
   font-weight: 400;
   font-family: "Geist", "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
   text-rendering: optimizeLegibility;
@@ -131,7 +131,7 @@ button:hover {
 
 .center-logo {
   margin-bottom: 2.5rem;
-  width: 13rem;
+  width: 17rem;
 }
 
 .input-group {
