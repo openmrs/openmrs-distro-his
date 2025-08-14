@@ -1,35 +1,4 @@
 services:
-
-  frontend:
-    environment:
-      SPA_CONFIG_URLS: /openmrs/spa/configs/config.json
-
-  env-substitution:
-    environment:
-      - ODOO_PUBLIC_URL=http://${ODOO_HOSTNAME}
-
   odoo:
     environment:
-      - ADDONS=sale_management,stock,account_account,purchase,mrp,mrp_product_expiry,product_expiry,l10n_generic_coa,odoo_initializer,ozone_settings,auth_oidc,web_company_color
-
-#  certs:
-#    platform: linux/amd64
-#
-#  oe.openelis.org:
-#    platform: linux/amd64
-#
-#  frontend.openelis.org:
-#    platform: linux/amd64
-#
-#  fhir.openelis.org:
-#    platform: linux/amd64
-#    ports:
-#      - "8086:8080"
-#    volumes:
-#      - key_trust-store-volume:/etc/openelis-global
-#
-#  proxy:
-#    platform: linux/amd64
-#    ports:
-#      - "81:80"
-#      - "443:443"
+      - ADDONS=sale_management,stock,account_account,purchase,mrp,mrp_product_expiry,product_expiry,l10n_generic_coa,odoo_initializer,ozone_settings,auth_oidc,auth_oauth_autologin,web_company_color
