@@ -7,7 +7,7 @@
       },
       {
         "title": "Laboratory",
-        "redirect": "${SENAITE_PUBLIC_URL}"
+        "redirect": "${OPENELIS_PUBLIC_URL}"
       }
     ]
   }
