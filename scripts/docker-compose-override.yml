@@ -1,4 +1,0 @@
-services:
-  odoo:
-    environment:
-      - ADDONS=sale_management,stock,account_account,purchase,mrp,mrp_product_expiry,product_expiry,l10n_generic_coa,odoo_initializer,ozone_settings,auth_oidc,auth_oauth_autologin,web_company_color
