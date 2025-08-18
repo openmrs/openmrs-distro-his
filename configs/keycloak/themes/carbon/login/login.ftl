@@ -146,7 +146,7 @@
         </svg>
       </div>
       <div class="powered-by-logo">
-        <img src="${url.resourcesPath}/img/openelis.svg" width="100%" />
+        <img src="${url.resourcesPath}/img/openelis.png" width="100%" />
       </div>
       <div class="powered-by-logo" style="margin-top: -0.2rem">
         <img src="${url.resourcesPath}/img/superset-logo-small.png" width="100%" />
