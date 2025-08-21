@@ -522,6 +522,9 @@
       ],
       "disableableCredentialTypes": [],
       "requiredActions": [],
+      "attributes": {
+        "gender": "M"
+      },
       "realmRoles": [
         "default-roles-ozone"
       ],
