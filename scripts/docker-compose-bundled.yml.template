@@ -321,7 +321,6 @@ services:
     ports:
       - "8080:80"
       - "8069:8069"
-      - "8081:8081"
       - "8084:8084"
     volumes:
       - "\${PROXY_TLS_CERTS_PATH:-proxy-tls-certs}:/etc/tls"
