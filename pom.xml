@@ -57,6 +57,7 @@
                   <directory>${project.build.directory}/ozone</directory>
                   <excludes>
                     <exclude>distro/configs/openmrs/frontend_config/ozone_logo*.svg</exclude>
+                    <exclude>distro/configs/openmrs/initializer_config/globalproperties/**/disable-demo-patients.xml</exclude>
                   </excludes>
                 </resource>
               </resources>
