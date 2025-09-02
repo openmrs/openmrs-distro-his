@@ -13,16 +13,8 @@
             <value>/etc/openelis-global/keystore</value>
         </globalProperty>
         <globalProperty>
-            <property>labonfhir.keystorePass</property>
-            <value>27e3af2b790009d6b8a2fa4eb6c9d8600a92215fa119ff2139e8b29a1bee72a5</value>
-        </globalProperty>
-        <globalProperty>
             <property>labonfhir.truststorePath</property>
             <value>/etc/openelis-global/truststore</value>
-        </globalProperty>
-        <globalProperty>
-            <property>labonfhir.truststorePass</property>
-            <value>27e3af2b790009d6b8a2fa4eb6c9d8600a92215fa119ff2139e8b29a1bee72a5</value>
         </globalProperty>
         <globalProperty>
             <property>labonfhir.activateFhirPush</property>
@@ -35,10 +27,6 @@
         <globalProperty>
             <property>labonfhir.userName</property>
             <value>OpenMRS</value>
-        </globalProperty>
-        <globalProperty>
-            <property>labonfhir.password</property>
-            <value>admin</value>
         </globalProperty>
         <globalProperty>
             <property>labonfhir.openmrsPatientIdentifier.uuid</property>

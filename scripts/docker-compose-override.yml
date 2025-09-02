@@ -1,6 +1,10 @@
 services:
 
   openmrs:
+    environment:
+      OMRS_EXTRA_LABONFHIR_KEYSTOREPASS: 27e3af2b790009d6b8a2fa4eb6c9d8600a92215fa119ff2139e8b29a1bee72a5
+      OMRS_EXTRA_LABONFHIR_TRUSTSTOREPASS: 27e3af2b790009d6b8a2fa4eb6c9d8600a92215fa119ff2139e8b29a1bee72a5
+      OMRS_EXTRA_LABONFHIR_PASSOWORD: admin
     volumes:
       - "${DISTRO_PATH}/binaries/openelis/truststore:/etc/openelis-global/truststore"
       - "${DISTRO_PATH}/binaries/openelis/keystore:/etc/openelis-global/keystore"
