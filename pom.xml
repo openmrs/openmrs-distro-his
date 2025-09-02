@@ -23,7 +23,7 @@
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
 
-    <labonfhir.omod.version>1.5.1</labonfhir.omod.version>
+    <labonfhir.omod.version>1.5.3-SNAPSHOT</labonfhir.omod.version>
   </properties>
 
   <dependencies>
