@@ -165,8 +165,6 @@ services:
   # FHIR Odoo
   fhir-odoo:
     depends_on:
-      env-substitution:
-        condition: service_completed_successfully
       odoo:
         condition: service_started
     environment:
