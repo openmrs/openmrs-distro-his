@@ -237,6 +237,7 @@ services:
       ODOO_PUBLIC_URL: \${SERVER_SCHEME}://\${ODOO_HOSTNAME:-localhost:8069}
       OPENMRS_PUBLIC_URL: \${SERVER_SCHEME}://\${O3_HOSTNAME:-localhost}
       SUPERSET_PUBLIC_URL: \${SERVER_SCHEME}://\${SUPERSET_HOSTNAME}
+      KEYCLOAK_URL: \${SERVER_SCHEME}://\${KEYCLOAK_HOSTNAME}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       timeout: 5s
