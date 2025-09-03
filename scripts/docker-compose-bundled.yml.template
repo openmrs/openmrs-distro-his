@@ -162,6 +162,30 @@ services:
     volumes:
       - eip-home-odoo:/eip-home
 
+  # FHIR Odoo
+  fhir-odoo:
+    depends_on:
+      odoo:
+        condition: service_started
+    environment:
+      - ODOO_HOST=http://odoo
+      - ODOO_PORT=8069
+      - ODOO_DATABASE=\${ODOO_DATABASE}
+    image: mekomsolutions/fhir-odoo
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.fhir-erp.rule: "Host(`\${FHIR_ODOO_HOSTNAME}`)"
+      traefik.http.routers.fhir-erp.entrypoints: "websecure"
+      traefik.http.services.fhir-erp.loadbalancer.server.port: 8080
+    networks:
+      web:
+      ozone:
+        aliases:
+          - fhir-erp
+          - fhir-odoo
+          - odoo-fhir-facade
+    restart: unless-stopped
+
   # OpenMRS 3 Backend
   openmrs:
     depends_on:
