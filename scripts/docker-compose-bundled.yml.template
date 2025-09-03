@@ -232,7 +232,7 @@ services:
     environment:
       SPA_PATH: /openmrs/spa
       API_URL: /openmrs
-      SPA_CONFIG_URLS: \${SPA_CONFIG_URLS},/openmrs/spa/configs/ozone-frontend-config-sso.json
+      SPA_CONFIG_URLS: /openmrs/spa/configs/ozone-frontend-config.json,/openmrs/spa/configs/ozone-frontend-config-sso.json,/openmrs/spa/configs/openmrs-his-frontend-config.json
       SPA_DEFAULT_LOCALE: \${SPA_DEFAULT_LOCALE}
       ODOO_PUBLIC_URL: \${SERVER_SCHEME}://\${ODOO_HOSTNAME:-localhost:8069}
       OPENMRS_PUBLIC_URL: \${SERVER_SCHEME}://\${O3_HOSTNAME:-localhost}
