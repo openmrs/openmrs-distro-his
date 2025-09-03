@@ -22,10 +22,16 @@
     <!-- Bundled Docker overrides -->
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
+
+      <labonfhir.omod.version>1.5.3-SNAPSHOT</labonfhir.omod.version>
   </properties>
 
   <dependencies>
-    <!-- TODO: Add any implementation-specific dependencies -->
+      <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>labonfhir-omod</artifactId>
+          <version>${labonfhir.omod.version}</version>
+      </dependency>
   </dependencies>
 
   <build>
