@@ -14,7 +14,7 @@
         "redirect": "${KEYCLOAK_URL}/realms/ozone/account/#/"
       },
       {
-        "title": "Log Management",
+        "title": "Logs Management",
         "redirect": "https://grafana.openmrs-his.mekomsolutions.net"
       },
       {

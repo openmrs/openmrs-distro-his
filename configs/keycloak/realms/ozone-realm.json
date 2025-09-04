@@ -876,7 +876,8 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "${ODOO_CLIENT_SECRET}",
       "redirectUris": [
-        "${ODOO_PUBLIC_URL}/*"
+        "${ODOO_PUBLIC_URL}/*",
+        "http://erp.dev-his.openmrs.org/*"
       ],
       "webOrigins": [
         "${ODOO_PUBLIC_URL}"
