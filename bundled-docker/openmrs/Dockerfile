@@ -1,5 +1,9 @@
 FROM openmrs/openmrs-core:2.7.4-amazoncorretto-17
 
+ENV OMRS_EXTRA_LABONFHIR_KEYSTOREPASS="27e3af2b790009d6b8a2fa4eb6c9d8600a92215fa119ff2139e8b29a1bee72a5" \
+    OMRS_EXTRA_LABONFHIR_TRUSTSTOREPASS="27e3af2b790009d6b8a2fa4eb6c9d8600a92215fa119ff2139e8b29a1bee72a5" \
+    OMRS_EXTRA_LABONFHIR_PASSOWORD="admin"
+
 # Add modules & configurations for the ozone distribution
 ADD distro/binaries/openmrs/modules /openmrs/distribution/openmrs_modules
 ADD distro/configs/openmrs/initializer_config /openmrs/distribution/openmrs_config
