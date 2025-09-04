@@ -16,6 +16,10 @@
       {
         "title": "Log Management",
         "redirect": "https://grafana.openmrs-his.mekomsolutions.net"
+      },
+      {
+        "title": "Laboratory",
+        "redirect": "https://demo.openelis-global.org"
       }
     ]
   }
