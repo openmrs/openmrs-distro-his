@@ -341,8 +341,6 @@ services:
 
   # Proxy
   proxy:
-    environment:
-      - GITPOD_ENV=\${GITPOD_ENV}
     restart: unless-stopped
     image: ${dockerUserName}/${sanitizedArtifactId}-proxy:${dockertag}
     healthcheck:
