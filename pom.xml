@@ -23,16 +23,16 @@
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
 
-    <labonfhir.omod.version>1.5.2</labonfhir.omod.version>
+    <labonfhir.omod.version>1.5.3-SNAPSHOT</labonfhir.omod.version>
     <openelis.version>3.2.0.1</openelis.version>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>labonfhir-omod</artifactId>
-      <version>${labonfhir.omod.version}</version>
-    </dependency>
+      <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>labonfhir-omod</artifactId>
+          <version>${labonfhir.omod.version}</version>
+      </dependency>
   </dependencies>
 
   <build>
@@ -64,6 +64,7 @@
                   <directory>${project.build.directory}/ozone</directory>
                   <excludes>
                     <exclude>distro/configs/openmrs/frontend_config/ozone_logo*.svg</exclude>
+                    <exclude>distro/configs/openmrs/initializer_config/globalproperties/**/disable-demo-patients.xml</exclude>
                   </excludes>
                 </resource>
               </resources>

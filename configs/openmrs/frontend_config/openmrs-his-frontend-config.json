@@ -6,8 +6,20 @@
         "redirect": "${ODOO_PUBLIC_URL}"
       },
       {
+        "title": "Reporting & Analytics",
+        "redirect": "${SUPERSET_PUBLIC_URL}"
+      },
+      {
+        "title": "Account Management",
+        "redirect": "${KEYCLOAK_URL}/realms/ozone/account/#/"
+      },
+      {
+        "title": "Logs Management",
+        "redirect": "https://grafana.openmrs-his.mekomsolutions.net"
+      },
+      {
         "title": "Laboratory",
-        "redirect": "${OPENELIS_PUBLIC_URL}"
+        "redirect": "https://demo.openelis-global.org"
       }
     ]
   }

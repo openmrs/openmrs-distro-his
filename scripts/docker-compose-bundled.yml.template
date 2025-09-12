@@ -152,6 +152,11 @@ services:
       - OAUTH_CLIENT_ID=\${OAUTH_CLIENT_ID}
       - OAUTH_CLIENT_SECRET=\${OAUTH_CLIENT_SECRET}
       - OAUTH_CLIENT_SCOPE=\${OAUTH_CLIENT_SCOPE}
+      - EIP_ODOO_FHIR_SERVER_URL=\${EIP_ODOO_FHIR_SERVER_URL:-http://fhir-odoo:8080}
+      - EIP_ODOO_FHIR_USERNAME=\${ODOO_USER}
+      - EIP_ODOO_FHIR_PASSWORD=\${ODOO_PASSWORD}
+      - EIP_PRODUCT_SYNC_INITIAL_DELAY=\${EIP_PRODUCT_SYNC_INITIAL_DELAY:-60000}
+      - EIP_PRODUCT_SYNC_DELAY=\${EIP_PRODUCT_SYNC_DELAY:-30000}
     image: ${dockerUserName}/${sanitizedArtifactId}-eip-odoo-openmrs:${dockertag}
     networks:
       ozone:
@@ -161,6 +166,31 @@ services:
     restart: unless-stopped
     volumes:
       - eip-home-odoo:/eip-home
+
+  # FHIR Odoo
+  fhir-odoo:
+    depends_on:
+      odoo:
+        condition: service_started
+    environment:
+      - ODOO_HOST=http://odoo
+      - ODOO_PORT=8069
+      - ODOO_DATABASE=\${ODOO_DATABASE}
+      - EIP_ODOO_DRUGS_CATEGORY_EXT_ID=\${EIP_ODOO_DRUGS_CATEGORY_EXT_ID:-categ_products_drug_orders}
+    image: mekomsolutions/fhir-odoo
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.fhir-erp.rule: "Host(`\${FHIR_ODOO_HOSTNAME}`)"
+      traefik.http.routers.fhir-erp.entrypoints: "websecure"
+      traefik.http.services.fhir-erp.loadbalancer.server.port: 8080
+    networks:
+      web:
+      ozone:
+        aliases:
+          - fhir-erp
+          - fhir-odoo
+          - odoo-fhir-facade
+    restart: unless-stopped
 
   # OpenMRS 3 Backend
   openmrs:
@@ -208,11 +238,12 @@ services:
     environment:
       SPA_PATH: /openmrs/spa
       API_URL: /openmrs
-      SPA_CONFIG_URLS: \${SPA_CONFIG_URLS},/openmrs/spa/configs/ozone-frontend-config-sso.json
+      SPA_CONFIG_URLS: /openmrs/spa/configs/referenceapplication/config.json,/openmrs/spa/configs/referenceapplication-demo/config.json,/openmrs/spa/configs/ozone-frontend-config.json,/openmrs/spa/configs/ozone-frontend-config-sso.json,/openmrs/spa/configs/openmrs-his-frontend-config.json
       SPA_DEFAULT_LOCALE: \${SPA_DEFAULT_LOCALE}
       ODOO_PUBLIC_URL: \${SERVER_SCHEME}://\${ODOO_HOSTNAME:-localhost:8069}
       OPENMRS_PUBLIC_URL: \${SERVER_SCHEME}://\${O3_HOSTNAME:-localhost}
       SUPERSET_PUBLIC_URL: \${SERVER_SCHEME}://\${SUPERSET_HOSTNAME}
+      KEYCLOAK_URL: \${SERVER_SCHEME}://\${KEYCLOAK_HOSTNAME}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       timeout: 5s
@@ -321,7 +352,6 @@ services:
     ports:
       - "8080:80"
       - "8069:8069"
-      - "8081:8081"
       - "8084:8084"
     volumes:
       - "\${PROXY_TLS_CERTS_PATH:-proxy-tls-certs}:/etc/tls"
