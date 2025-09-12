@@ -23,8 +23,9 @@
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
 
-    <labonfhir.omod.version>1.5.3-SNAPSHOT</labonfhir.omod.version>
+    <labonfhir.omod.version>1.5.3</labonfhir.omod.version>
     <openelis.version>3.2.0.2</openelis.version>
+    <referencedemodata.omod.version>2.6.0</referencedemodata.omod.version>
   </properties>
 
   <dependencies>
@@ -32,6 +33,11 @@
           <groupId>org.openmrs.module</groupId>
           <artifactId>labonfhir-omod</artifactId>
           <version>${labonfhir.omod.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>referencedemodata-omod</artifactId>
+          <version>${referencedemodata.omod.version}</version>
       </dependency>
   </dependencies>
 
@@ -271,7 +277,7 @@
       <url>https://nexus.mekomsolutions.net/repository/maven-public/</url>
     </repository>
   </repositories>
-  
+
   <profiles>
     <profile>
       <id>validator</id>

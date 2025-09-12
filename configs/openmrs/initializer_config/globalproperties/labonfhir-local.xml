@@ -20,5 +20,9 @@
             <description>Allows filtering Oders by Test Uuuids</description>
             <value>false</value>
         </globalProperty>
+        <globalProperty>
+            <property>labonfhir.filterDemoData</property>
+            <value>true</value>
+        </globalProperty>
     </globalProperties>
 </config>
