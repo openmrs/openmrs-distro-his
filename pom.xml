@@ -24,7 +24,7 @@
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
 
     <labonfhir.omod.version>1.5.3-SNAPSHOT</labonfhir.omod.version>
-    <openelis.version>3.2.0.1</openelis.version>
+    <openelis.version>3.2.0.2</openelis.version>
   </properties>
 
   <dependencies>

@@ -2,22 +2,59 @@
     <globalProperties>
         <globalProperty>
             <property>labonfhir.lisUrl</property>
-            <description>The URL for an LIS system like OpenELIS system to communicate with</description>
-            <value>http://host.docker.internal:8086/fhir</value>
+            <value>https://demo.openelis-global.org:8444/fhir</value>
         </globalProperty>
         <globalProperty>
             <property>labonfhir.lisUserUuid</property>
-            <description>UUID for the service user that represents a LIS like OpenELIS</description>
-            <value>6191df3b-c817-446d-85c1-a6a0bbd61b91</value>
+            <value>	</value>
         </globalProperty>
+        <globalProperty>
+            <property>labonfhir.keystorePath</property>
+            <value>/etc/openelis-global/keystore</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labonfhir.truststorePath</property>
+            <value>/etc/openelis-global/truststore</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labonfhir.activateFhirPush</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labonfhir.authType</property>
+            <value>SSL</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labonfhir.userName</property>
+            <value>OpenMRS</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labonfhir.openmrsPatientIdentifier.uuid</property>
+            <value>05a29f94-c0ed-11e2-94be-8c13b969e334</value>
+        </globalProperty>
+
+        <globalProperty>
+            <property>labonfhir.lisIdentifierSystem.url</property>
+            <value>http://openelis-global.org/pat_nationalId</value>
+        </globalProperty>
+
+        <globalProperty>
+            <property>labonfhir.orderTestUuids</property>
+            <value>160046AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,165254AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+        </globalProperty>
+
         <globalProperty>
             <property>labonfhir.labUpdateTriggerObject</property>
-            <description>The OpenMRS object type that should trigger LIS synchronization - either Encounter or Order.</description>
             <value>Order</value>
         </globalProperty>
+
+        <globalProperty>
+            <property>labonfhir.addObsAsTaskInput</property>
+            <value>false</value>
+        </globalProperty>
+
         <globalProperty>
             <property>labonfhir.filterOrderBytestUuids</property>
-            <description>Allows filtering Oders by Test Uuuids</description>
             <value>false</value>
         </globalProperty>
     </globalProperties>
