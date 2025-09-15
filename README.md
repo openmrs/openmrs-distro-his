@@ -5,6 +5,8 @@ A sample software distribution that demonstrates how integration of OpenMRS with
 ## Try it online
 
 Demo Environment: https://emr.dev-his.openmrs.org 
+Username: jdoe
+Password: password
 
 OpenMRS Distro HIS is deployed on a development server at dev-his.openmrs.org. Each app can be accessed via its own subdomain:
 
