@@ -25,7 +25,7 @@
             <value>SSL</value>
         </globalProperty>
         <globalProperty>
-            <property>labonfhir.userName</property>
+            <property>labonfhir.username</property>
             <value>OpenMRS</value>
         </globalProperty>
         <globalProperty>
@@ -56,6 +56,10 @@
         <globalProperty>
             <property>labonfhir.filterOrderBytestUuids</property>
             <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labonfhir.filterDemoData</property>
+            <value>true</value>
         </globalProperty>
     </globalProperties>
 </config>

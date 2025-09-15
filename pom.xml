@@ -23,7 +23,8 @@
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
 
-      <labonfhir.omod.version>1.5.3-SNAPSHOT</labonfhir.omod.version>
+      <labonfhir.omod.version>1.5.3</labonfhir.omod.version>
+      <referencedemodata.omod.version>2.6.0</referencedemodata.omod.version>
   </properties>
 
   <dependencies>
@@ -31,6 +32,11 @@
           <groupId>org.openmrs.module</groupId>
           <artifactId>labonfhir-omod</artifactId>
           <version>${labonfhir.omod.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>referencedemodata-omod</artifactId>
+          <version>${referencedemodata.omod.version}</version>
       </dependency>
   </dependencies>
 
