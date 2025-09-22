@@ -1,10 +1,15 @@
-<h1 align="center">OpenMRS HIS</h1>
-
 <p align="center">
-**OpenMRS HIS** is an enhanced distribution of OpenMRS, **powered by Ozone**, that extends the platform beyond its EMR capabilities to deliver a full **Health Information System (HIS)**. While OpenMRS lays the groundwork for patient data management and medical record keeping, OpenMRS HIS brings much more by integrating complementary applications: **Odoo for ERP (billing, stock, pharmacy)**, **OpenELIS Global for laboratory management**, and **Ozone Analytics for real-time reporting**; all unified and secured through **SSO** and aligned with the **OpenHIE Product Catalog specification**.
-It is also *white-labeled and ready to be rebranded**, with examples already implemented for Odoo and Keycloak matching the OpenMRS style.
-The result is a ready-to-use, modular, and scalable HIS that builds on the strengths of OpenMRS while meeting the broader needs of health facilities and national health programs.
+<a><img src="./configs/keycloak/themes/carbon/login/resources/img/openmrs-his.svg" alt="OpenMRS HIS" width="30%"/></a>
 </p>
+
+**OpenMRS HIS** is an enhanced distribution of OpenMRS, **powered by Ozone**, that extends the platform beyond its EMR capabilities to deliver a full **Health Information System (HIS)**.
+
+While OpenMRS lays the groundwork for patient data management and medical record keeping, OpenMRS HIS brings much more by integrating complementary applications: **Odoo for ERP (billing, stock, pharmacy)**, **OpenELIS Global for laboratory management**, and **Ozone Analytics for real-time reporting**; all unified and secured through **SSO** and aligned with the **OpenHIE Product Catalog specification**.
+
+It is also **white-labeled and ready to be rebranded**, with examples already implemented for Odoo and Keycloak matching the OpenMRS style.
+
+The result is a ready-to-use, modular, and scalable HIS that builds on the strengths of OpenMRS while meeting the broader needs of health facilities and national health programs.
+
 
 ---
 
