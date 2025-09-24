@@ -224,6 +224,23 @@
               <goal>run</goal>
             </goals>
           </execution>
+
+            <!-- Deletes labonfhir globalproperties depending on place of deployment -->
+            <execution>
+                <id>Delete labonfhir globalproperties depending on place of deployment</id>
+                <phase>package</phase>
+                <configuration>
+                    <target>
+                        <!-- Uncomment this line when you want to run OpenELIS Global locally -->
+                        <!--<delete file="${project.build.directory}/${project.artifactId}-${project.version}/distro/configs/openmrs/initializer_config/globalproperties/03_distro-his/labonfhir-dev-server.xml"/>-->
+                        <!-- Comment this line when you want to run OpenELIS Global locally -->
+                        <delete file="${project.build.directory}/${project.artifactId}-${project.version}/distro/configs/openmrs/initializer_config/globalproperties/03_distro-his/labonfhir-local.xml"/>
+                    </target>
+                </configuration>
+                <goals>
+                    <goal>run</goal>
+                </goals>
+            </execution>
         </executions>
       </plugin>
       <plugin>
