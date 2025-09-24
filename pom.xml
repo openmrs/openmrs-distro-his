@@ -70,6 +70,8 @@
                   <excludes>
                     <exclude>distro/configs/openmrs/frontend_config/ozone_logo*.svg</exclude>
                     <exclude>distro/configs/openmrs/initializer_config/globalproperties/**/disable-demo-patients.xml</exclude>
+
+                    <exclude>distro/binaries/openmrs/modules/referencedemodata-2.5.0.omod</exclude>
                   </excludes>
                 </resource>
               </resources>
