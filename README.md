@@ -1,32 +1,42 @@
-# OpenMRS Distro HIS
+<p align="center">
+<a><img src="./configs/keycloak/themes/carbon/login/resources/img/openmrs-his.svg" alt="OpenMRS HIS" width="30%"/></a>
+</p>
 
-A sample software distribution that demonstrates how integration of OpenMRS with external systems can be achieved.
+**OpenMRS HIS** is an enhanced distribution of OpenMRS, **powered by Ozone**, that extends the platform beyond its EMR capabilities to deliver a full **Health Information System (HIS)**.
+
+While OpenMRS lays the groundwork for patient data management and medical record keeping, OpenMRS HIS brings much more by integrating complementary applications: **Odoo for ERP (billing, stock, pharmacy)**, **OpenELIS Global for laboratory management**, and **Ozone Analytics for real-time reporting**; all unified and secured through **SSO** and aligned with the **OpenHIE Product Catalog specification**.
+
+It is also **white-labeled and ready to be rebranded**, with examples already implemented for Odoo and Keycloak matching the OpenMRS style.
+
+The result is a ready-to-use, modular, and scalable HIS that builds on the strengths of OpenMRS while meeting the broader needs of health facilities and national health programs.
+
+
+---
 
 ## Try it online
 
-OpenMRS Distro HIS is deployed on a development server at dev-his.openmrs.org. Each app can be accessed via its own subdomain:
+Demo Environment: https://dev-his.openmrs.org 
+Username: jdoe
+Password: password
 
-|App|URL|Credentials|
-|:----|:----|:----|
-OpenMRS (EMR) | https://emr.dev-his.openmrs.org | admin / Admin123
-Odoo (ERP) | https://erp.dev-his.openmrs.org | admin / admin
-SENAITE (LIMS) | https://lims.dev-his.openmrs.org/ | admin / password
+## Running it locally
 
-## Try it locally
+Like any other Ozone distribution, you can run it locally by following the instructions from the offical Ozone Implementers documentation:
+👉 https://docs.ozone-his.com/implementers/start-stop/
 
-### code
+---
+<br/>
 
-```
-git clone https://github.com/openmrs/openmrs-distro-his
-cd openmrs-distro-his/
-```
+<p align="center">
+    <a href="https://docs.ozone-his.com/"><img src="https://raw.githubusercontent.com/ozone-his/.github/refs/heads/main/profile/ozone-logo.png" alt="Ozone" width="20%"/></a>
+</p>
 
-### Available commands
+<h3 align="center">The Instant HIS</h3>
 
-|Goal|Command|Explanation|
-|:----|:----|:----|
-|**Build** the distribution|<pre>./scripts/mvnw clean package</pre>|Assembles and packages your distribution, incorporating any configurations and customizations you've applied.|
-|Access start/stop/destroy commands|<pre>source target/go-to-scripts-dir.sh</pre>|Navigates to the directory containing the scripts for starting, stopping, and destroying the distribution, making these commands readily accessible.|
-|**Start** the distribution|<pre>./start-demo.sh</pre>|Initiates and launches all components of the Ozone HIS, bringing up the system.|
-|**Stop** the distribution|<pre>./stop-demo.sh</pre>|Gracefully halts all Ozone HIS services, effectively shutting down the system.|
-|**Destroy** the distribution|<pre>./destroy-demo.sh</pre>|Completely removes the distribution, clearing all its components and data, ideal for resetting the system or rectifying persistent issues ahead of a restart or a rebuild and restart.|
+<p align="center">
+    <br/>Engage with the Ozone community and access useful resources below:
+</p>
+
+<h3 align="center">
+    <a href="https://github.com/ozone-his/">Code</a>&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://docs.ozone-his.com/">Docs</a>&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://talk.openmrs.org/c/software/ozone-his/70">Forum</a>&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://openmrs.slack.com/archives/C02PYQD5D0A">Chat Room</a>
+</h3>
