@@ -71,6 +71,7 @@
                     <exclude>distro/configs/openmrs/frontend_config/ozone_logo*.svg</exclude>
                     <exclude>distro/configs/openmrs/initializer_config/globalproperties/**/disable-demo-patients.xml</exclude>
 
+                    <!-- Exclude 'referencedemodata-2.5.0.omod' coming from Ref App in favor of 2.6.0 (needed for filtering demo patients out of OEG integration) -->
                     <exclude>distro/binaries/openmrs/modules/referencedemodata-2.5.0.omod</exclude>
                   </excludes>
                 </resource>
