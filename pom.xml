@@ -228,15 +228,16 @@
             </goals>
           </execution>
 
-            <!-- Deletes labonfhir globalproperties depending on place of deployment -->
+            <!-- Remove labonfhir globalproperties based on environment -->
             <execution>
                 <id>Delete labonfhir globalproperties depending on place of deployment</id>
                 <phase>package</phase>
                 <configuration>
                     <target>
-                        <!-- Uncomment this line when you want to run OpenELIS Global locally -->
+                        <!-- Use this when running with OpenELIS Global locally -->
                         <!--<delete file="${project.build.directory}/${project.artifactId}-${project.version}/distro/configs/openmrs/initializer_config/globalproperties/03_distro-his/labonfhir-dev-server.xml"/>-->
-                        <!-- Comment this line when you want to run OpenELIS Global locally -->
+
+                        <!-- Disable this when running with OpenELIS Global locally -->
                         <delete file="${project.build.directory}/${project.artifactId}-${project.version}/distro/configs/openmrs/initializer_config/globalproperties/03_distro-his/labonfhir-local.xml"/>
                     </target>
                 </configuration>
@@ -297,7 +298,7 @@
       <url>https://nexus.mekomsolutions.net/repository/maven-public/</url>
     </repository>
   </repositories>
-  
+
   <profiles>
     <profile>
       <id>validator</id>
