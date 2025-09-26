@@ -23,8 +23,9 @@
     <bundled.docker.compose.output.filename>docker-compose.yml</bundled.docker.compose.output.filename>
     <bundled.docker.compose.sso.enabled>true</bundled.docker.compose.sso.enabled>
 
-      <labonfhir.omod.version>1.5.3</labonfhir.omod.version>
-      <referencedemodata.omod.version>2.6.0</referencedemodata.omod.version>
+    <labonfhir.omod.version>1.5.3</labonfhir.omod.version>
+    <openelis.version>3.2.0.2</openelis.version>
+    <referencedemodata.omod.version>2.6.0</referencedemodata.omod.version>
   </properties>
 
   <dependencies>
@@ -120,8 +121,31 @@
                   <directory>${project.basedir}/scripts</directory>
                   <includes>
                     <include>docker-compose-override.yml</include>
+                    <include>docker-compose-openelis.yml</include>
                   </includes>
                   <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Copy over the OpenELIS volume directory -->
+            <id>Copy OpenELIS files and directories</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/${project.artifactId}-${project.version}/run/docker/
+              </outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${project.build.directory}/openelis-docker-${openelis.version}</directory>
+                  <includes>
+                    <include>volumes/**</include>
+                  </includes>
                 </resource>
               </resources>
             </configuration>
@@ -143,6 +167,7 @@
                   <directory>${project.basedir}/configs</directory>
                   <excludes>
                     <exclude>.gitkeep</exclude>
+                    <exclude>openmrs/initializer_config/</exclude>
                   </excludes>
                 </resource>
               </resources>
@@ -168,6 +193,102 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+            <!-- Copy and rename OpenELIS docker-compose.yml to docker-compose-openelis.yml -->
+          <execution>
+            <id>rename and copy OpenELIS docker-compose.yml</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <target>
+                <copy file="${project.build.directory}/openelis-docker-${openelis.version}/docker-compose.yml"
+                      tofile="${project.build.directory}/${project.artifactId}-${project.version}/run/docker/docker-compose-openelis.yml" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+
+            <!-- Overwrite OpenELIS common.properties -->
+          <execution>
+            <id>override-config-in-volumes</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <target>
+                <copy file="${project.basedir}/configs/openelis/common.properties"
+                      tofile="${project.build.directory}/${project.artifactId}-${project.version}/run/docker/volumes/properties/common.properties"
+                      overwrite="true"/>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+
+            <!-- Remove labonfhir globalproperties based on environment -->
+            <execution>
+                <id>Delete labonfhir globalproperties depending on place of deployment</id>
+                <phase>package</phase>
+                <configuration>
+                    <target>
+                        <!-- Use this when running with OpenELIS Global locally -->
+                        <!--<delete file="${project.build.directory}/${project.artifactId}-${project.version}/distro/configs/openmrs/initializer_config/globalproperties/03_distro-his/labonfhir-dev-server.xml"/>-->
+
+                        <!-- Disable this when running with OpenELIS Global locally -->
+                        <delete file="${project.build.directory}/${project.artifactId}-${project.version}/distro/configs/openmrs/initializer_config/globalproperties/03_distro-his/labonfhir-local.xml"/>
+                    </target>
+                </configuration>
+                <goals>
+                    <goal>run</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+            <!-- Download openelis-docker -->
+          <execution>
+            <id>download openelis-docker</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>curl</executable>
+              <arguments>
+                <argument>-L</argument>
+                <argument>-o</argument>
+                <argument>${project.build.directory}/openelis-docker-${openelis.version}.zip</argument>
+                <argument>https://github.com/DIGI-UW/openelis-docker/archive/refs/tags/${openelis.version}.zip</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+            <!-- Extract openelis-docker -->
+          <execution>
+            <id>extract openelis-docker zip</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>sh</executable>
+              <arguments>
+                <argument>-c</argument>
+                <argument>
+                  unzip -o ${project.build.directory}/openelis-docker-${openelis.version}.zip -d ${project.build.directory}
+                </argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -177,7 +298,7 @@
       <url>https://nexus.mekomsolutions.net/repository/maven-public/</url>
     </repository>
   </repositories>
-  
+
   <profiles>
     <profile>
       <id>validator</id>
