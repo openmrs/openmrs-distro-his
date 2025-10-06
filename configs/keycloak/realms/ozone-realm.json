@@ -646,7 +646,9 @@
       "redirectUris": [
         "/realms/ozone/account/*"
       ],
-      "webOrigins": [],
+      "webOrigins": [
+        "+"
+      ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
