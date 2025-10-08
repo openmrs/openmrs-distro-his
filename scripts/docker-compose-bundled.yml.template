@@ -69,6 +69,7 @@ services:
       - USER=\${ODOO_DB_USER}
       - PASSWORD=\${ODOO_DB_PASSWORD}
       - KEYCLOAK_URL=\${SERVER_SCHEME}://\${KEYCLOAK_HOSTNAME}
+      - KEYCLOAK_INTERNAL_HOST_URL=\${KEYCLOAK_INTERNAL_HOST_URL}
       - ODOO_CLIENT_UUID=\${ODOO_CLIENT_UUID}
       - ODOO_CLIENT_SECRET=\${ODOO_CLIENT_SECRET}
       - ADDONS=sale_management,stock,account_account,purchase,mrp,mrp_product_expiry,product_expiry,l10n_generic_coa,odoo_initializer,ozone_settings,server_environment,auth_oidc_environment,auth_oidc,web_company_color
@@ -205,6 +206,7 @@ services:
       HOST_URL: \${SERVER_SCHEME}://\${O3_HOSTNAME}
       OAUTH2_ENABLED: \${ENABLE_SSO}
       KEYCLOAK_URL: \${SERVER_SCHEME}://\${KEYCLOAK_HOSTNAME}
+      KEYCLOAK_INTERNAL_HOST_URL: \${KEYCLOAK_INTERNAL_HOST_URL}
       OPENMRS_CLIENT_UUID: \${OPENMRS_CLIENT_UUID}
       OPENMRS_CLIENT_SECRET: \${OPENMRS_CLIENT_SECRET}
     healthcheck:
@@ -240,6 +242,7 @@ services:
       OPENMRS_PUBLIC_URL: \${SERVER_SCHEME}://\${O3_HOSTNAME:-localhost}
       SUPERSET_PUBLIC_URL: \${SERVER_SCHEME}://\${SUPERSET_HOSTNAME}
       KEYCLOAK_URL: \${SERVER_SCHEME}://\${KEYCLOAK_HOSTNAME}
+      KEYCLOAK_INTERNAL_HOST_URL: \${KEYCLOAK_INTERNAL_HOST_URL}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       timeout: 5s
