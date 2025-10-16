@@ -377,7 +377,10 @@ services:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=admin
         - POSTGRES_DB=clinlims
-        - POSTGRES_INITDB_ARGS="--auth-host=md5"                  
+        - POSTGRES_INITDB_ARGS="--auth-host=md5"     
+
+        - DB_PASSWORD=\${CLINLIMS_USERNAME:-clinlims}
+        - DB_SUPERUSER_PASSWORD=superuser             
       networks:
         - ozone
       volumes:
@@ -404,7 +407,7 @@ services:
           - DEFAULT_PW=adminADMIN! 
           - TZ=America/New_York
             # context.xml doesn't seem to be able to pick up environment variables directly, so we are passing them in as CATALINA_OPTS
-          - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://db.openelis.org:5432/clinlims -Ddatasource.username=clinlims
+          - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://db.openelis.org:5432/clinlims -Ddatasource.username=clinlims -Ddatasource.password=\${CLINLIMS_USERNAME:-clinlims}
           # Remote server Configuration
           - ORG_OPENELISGLOBAL_REMOTE_SOURCE_URI=http://fhir.openelis.org:8080/fhir/
           - ORG_OPENELISGLOBAL_REMOTE_SOURCE_UPDATESTATUS=true
@@ -423,7 +426,7 @@ services:
           
   fhir.openelis.org:
       container_name: external-fhir-api
-      image: itechuw/openelis-global-2-fhir:latest
+      image: itechuw/openelis-global-2-fhir-bundled:main
       platform: linux/amd64
       depends_on:
           - db.openelis.org
@@ -432,61 +435,11 @@ services:
           - ozone
       restart: always
       environment:
-          # --- MANAGEMENT / ACTUATOR ---
-          - management.endpoints.web.exposure.include=health,prometheus
-
-          # --- SPRING CONFIG ---
-          - spring.main.allow-circular-references=true
-          - spring.flyway.enabled=false
-          - spring.flyway.check-location=false
-          - spring.flyway.baselineOnMigrate=true
-
-          - spring.datasource.url=jdbc:postgresql://db.openelis.org:5432/clinlims?currentSchema=clinlims
-          - spring.datasource.username=clinlims
-          - spring.datasource.password=clinlims
-          - spring.datasource.driverClassName=org.postgresql.Driver
-          - spring.datasource.max-active=15
-          - spring.datasource.hikari.maximum-pool-size=10
-
-          - spring.jpa.properties.hibernate.format_sql=false
-          - spring.jpa.properties.hibernate.show_sql=false
-          - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-          - spring.jpa.properties.hibernate.hbm2ddl.auto=update
-          - spring.jpa.properties.hibernate.search.enabled=true
-
-          # --- HAPI FHIR CONFIG ---
-          - hapi.fhir.openapi_enabled=true
-          - hapi.fhir.fhir_version=R4
-          - hapi.fhir.cr_enabled=false
-          - hapi.fhir.server_address=http://fhir.openelis.org:8080/fhir/
-          - hapi.fhir.allow_external_references=true
-          - hapi.fhir.auto_create_placeholder_reference_targets=true
-          - hapi.fhir.default_pretty_print=false
-          - hapi.fhir.default_page_size=100
-          - hapi.fhir.advanced_lucene_indexing=false
-          - hapi.fhir.bulk_export_enabled=false
-          - hapi.fhir.bulk_import_enabled=false
-          - hapi.fhir.fhirpath_interceptor_enabled=false
-          - hapi.fhir.narrative_enabled=false
-          - hapi.fhir.mdm_enabled=false
-          - hapi.fhir.cors.allow_Credentials=true
-          - hapi.fhir.cors.allowed_origin=*
-          - hapi.fhir.search-coord-core-pool-size=20
-          - hapi.fhir.search-coord-max-pool-size=100
-          - hapi.fhir.search-coord-queue-capacity=200
-          - hapi.fhir.max_page_size=200
-          - hapi.fhir.retain_cached_searches_mins=60
-          - hapi.fhir.reuse_cached_search_results_millis=1
-          - hapi.fhir.inline_resource_storage_below_size=4000
-          - hapi.fhir.subscription.resthook_enabled=true
-
-          # --- TESTER CONFIG ---
-          - hapi.fhir.tester.home.name="OE adjacent FHIR Store"
-          - hapi.fhir.tester.home.server_address=http://fhir.openelis.org:8080/fhir/
-          - hapi.fhir.tester.home.refuse_to_fetch_third_party_urls=false
-          - hapi.fhir.tester.home.fhir_version=R4                         
-
-        
+          TZ: Africa/Nairobi
+          FHIR_DATASOURCE_URL: "jdbc:postgresql://db.openelis.org:5432/clinlims?currentSchema=clinlims"
+          FHIR_DATASOURCE_USERNAME: "clinlims"
+          FHIR_DATASOURCE_PASSWORD: \${CLINLIMS_USERNAME:-clinlims}
+                                    
   frontend.openelis.org:
       image: itechuw/openelis-global-2-frontend:latest
       container_name: openelisglobal-front-end
@@ -505,8 +458,7 @@ services:
       container_name: openelisglobal-proxy
       platform: linux/amd64
       ports:
-          - 80:80
-          - 443:443
+          - "443:443"
       volumes:
           - certs-vol:/etc/nginx/certs/
           - keys-vol:/etc/nginx/keys/
