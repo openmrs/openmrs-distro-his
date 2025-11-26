@@ -350,7 +350,6 @@ services:
     volumes:
       - "\${PROXY_TLS_CERTS_PATH:-proxy-tls-certs}:/etc/tls"
 
-
 volumes:
   mysql-data: ~
   postgresql-data: ~
