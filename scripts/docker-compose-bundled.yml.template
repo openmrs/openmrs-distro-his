@@ -347,11 +347,14 @@ services:
         aliases:
           - ozone-proxy
     ports:
-      - "8080:80"
+      - "8081:80"
       - "8069:8069"
       - "8084:8084"
     volumes:
       - "\${PROXY_TLS_CERTS_PATH:-proxy-tls-certs}:/etc/tls"
+      - "./proxy/index.html:/usr/share/nginx/html/index.html:ro"
+      - "./proxy/502.html:/usr/share/nginx/html/502.html:ro"
+      - "./proxy/assets:/usr/share/nginx/html/assets:ro"
 
 volumes:
   mysql-data: ~

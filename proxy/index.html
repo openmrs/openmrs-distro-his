@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#087f8c">
+  <meta name="description" content="OpenMRS HIS integrated clinical, laboratory, billing and identity services.">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <title>OpenMRS HIS | Services Portal</title>
+  <style>
+    :root{color-scheme:light;--bg:#dbe3ea;--card:#fff;--ink:#142b45;--muted:#64748b;--teal:#087f8c;--online:#059669;--offline:#dc2626;--checking:#b7791f}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{width:min(1120px,100%);margin:auto;padding:34px 24px 48px;flex:1}
+    header{text-align:center;margin:0 auto 36px}.brand{font-size:.85rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}h1{font-size:clamp(1.6rem,3vw,2.25rem);line-height:1.2;margin:10px 0 0;letter-spacing:-.035em}h1:after{content:"";display:block;width:54px;height:4px;background:var(--teal);border-radius:4px;margin:13px auto 0}
+    .subtitle{color:var(--muted);margin:14px auto 0;max-width:600px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+    .card{min-height:228px;background:var(--card);border:1px solid transparent;border-radius:14px;padding:24px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;text-decoration:none;color:inherit;box-shadow:0 3px 10px #102a4308;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+    .card:hover,.card:focus-visible{transform:translateY(-3px);border-color:#087f8c70;box-shadow:0 12px 28px #102a4312;outline:none}.icon{font-size:2.7rem;line-height:1.2;margin:14px 0}.status{font-size:.68rem;font-weight:750;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 10px;background:#fef3c7;color:var(--checking)}.status.online{background:#d1fae5;color:var(--online)}.status.offline{background:#fee2e2;color:var(--offline)}.card h2{font-size:1rem;line-height:1.3;margin:0 0 6px}.desc{font-size:.82rem;color:var(--muted);margin:0}.card.offline{opacity:.82}.card.offline .icon{filter:grayscale(.6)}
+    footer{padding:18px 24px;background:var(--teal);color:#fff;text-align:center;font-size:.82rem}footer span{opacity:.85}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){main{padding:26px 16px 32px}.grid{grid-template-columns:1fr;gap:12px}.card{min-height:150px;padding:18px}.icon{margin:8px 0;font-size:2.2rem}header{margin-bottom:26px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">OpenMRS Health Information System</div>
+    <h1>Welcome to OpenMRS HIS</h1>
+    <p class="subtitle">One place to access the clinical, laboratory, billing and system administration services available in your facility.</p>
+  </header>
+  <section class="grid" aria-label="Available services">
+    <a class="card" id="card-openmrs" href="/openmrs/spa/" target="_blank" rel="noopener">
+      <span class="status" id="status-openmrs" role="status">Checking…</span><div class="icon" aria-hidden="true">🏥</div>
+      <h2>Electronic Medical Record</h2><p class="desc">OpenMRS clinical care and patient records</p>
+    </a>
+    <a class="card" id="card-openelis" href="#" target="_blank" rel="noopener">
+      <span class="status" id="status-openelis" role="status">Checking…</span><div class="icon" aria-hidden="true">🧪</div>
+      <h2>Laboratory Information System</h2><p class="desc">OpenELIS Global laboratory workflows</p>
+    </a>
+    <a class="card" id="card-odoo" href="#" target="_blank" rel="noopener">
+      <span class="status" id="status-odoo" role="status">Checking…</span><div class="icon" aria-hidden="true">📦</div>
+      <h2>ERP, Billing &amp; Inventory</h2><p class="desc">Odoo finance, pharmacy and stock</p>
+    </a>
+    <a class="card" id="card-keycloak" href="#" target="_blank" rel="noopener">
+      <span class="status" id="status-keycloak" role="status">Checking…</span><div class="icon" aria-hidden="true">🔐</div>
+      <h2>Identity &amp; Access</h2><p class="desc">Keycloak account and access management</p>
+    </a>
+  </section>
+</main>
+<footer>OpenMRS HIS <span>· Integrated health services for your facility</span></footer>
+<script>
+  // These match the published ports in the bundled HIS Docker Compose setup.
+  const host = window.location.hostname;
+  const protocol = window.location.protocol;
+  const services = [
+    {id:'openmrs', href:'/openmrs/spa/', probe:'/openmrs/spa/'},
+    {id:'openelis', href:protocol+'//'+host+':8085/', probe:protocol+'//'+host+':8085/'},
+    {id:'odoo', href:protocol+'//'+host+':8069/web', probe:protocol+'//'+host+':8069/web/login'},
+    {id:'keycloak', href:protocol+'//'+host+':8084/', probe:protocol+'//'+host+':8084/'}
+  ];
+  function setStatus(service, state, label) {
+    const card=document.getElementById('card-'+service.id);
+    const badge=document.getElementById('status-'+service.id);
+    badge.className='status '+state;
+    badge.textContent=label;
+    card.classList.toggle('offline',state==='offline');
+    card.href=service.href;
+    card.setAttribute('aria-label',card.querySelector('h2').textContent+' — '+label);
+  }
+  async function checkServices(){
+    await Promise.all(services.map(async service=>{
+      try{
+        const sameOrigin=new URL(service.probe,window.location.href).origin===window.location.origin;
+        const response=await fetch(service.probe,{method:'GET',mode:sameOrigin?'same-origin':'no-cors',cache:'no-store',signal:AbortSignal.timeout(4500)});
+        // For same-origin requests, treat gateway errors as offline. Cross-port no-cors
+        // checks are opaque, so a completed request means that the service answered.
+        if(sameOrigin && response.status>=500){setStatus(service,'offline','Unavailable');}
+        else{setStatus(service,'online','Online');}
+      }catch(error){setStatus(service,'offline','Unavailable');}
+    }));
+  }
+  checkServices();
+  setInterval(checkServices,15000);
+</script>
+</body>
+</html>

@@ -129,6 +129,29 @@
             </configuration>
           </execution>
           <execution>
+            <!-- Copy the service portal into the generated Docker runtime directory -->
+            <id>Copy HIS services portal</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/run/docker/proxy</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/proxy</directory>
+                  <includes>
+                    <include>index.html</include>
+                    <include>502.html</include>
+                    <include>assets/**</include>
+                  </includes>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
             <!-- Copy over the OpenELIS volume directory -->
             <id>Copy OpenELIS files and directories</id>
             <phase>process-resources</phase>
